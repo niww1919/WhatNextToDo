@@ -3,6 +3,7 @@ package com.example.whatnexttodo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: RecyclerAdapter
+    val innerTexts: MutableList<MutableList<String>> =
+        mutableListOf(
+            mutableListOf("1", "2", "3"),
+            mutableListOf("11", "22", "33"),
+            mutableListOf("111", "222", "333")
+        )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         linearLayoutManager = LinearLayoutManager(this)
         rv.layoutManager = linearLayoutManager
-        adapter = RecyclerAdapter()
+        adapter = RecyclerAdapter(innerTexts)
         rv.adapter = adapter
 
         val db = Data()
@@ -67,7 +74,23 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun addNewToDo(view: View) {
+//        innerTexts.add(mutableListOf("Ok"))
+        innerTexts.add(0, mutableListOf("Test","test","test"))
+//        rv.adapter?.notifyItemRangeInserted(0,1)
+        rv.adapter?.notifyItemInserted(0)
+//        rv.adapter?.notifyDataSetChanged()
 
+    }
+
+    fun addTask(view: View){
+//        innerTexts[adapter.itemCount].add("work")
+//        innerTexts[linearLayoutManager.getPosition(view)].add(1,"work")
+        innerTexts[1].add(1,"work")
+        rv.adapter?.notifyDataSetChanged()
+
+
+    }
 
 
 }

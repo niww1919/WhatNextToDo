@@ -4,24 +4,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.whatnexttodo.R
 
-class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class RecyclerAdapter(val dataList: MutableList<MutableList<String>>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
-    private val innerTexts: MutableList<MutableList<String>> =
-        mutableListOf(
-            mutableListOf("1", "2", "3"),
-            mutableListOf("11", "22", "33"),
-            mutableListOf("111", "222", "333"),
-            mutableListOf("1111", "2222", "3333"),
-            mutableListOf("11111", "22222", "33333")
-        )
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,19 +24,26 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
         )
     }
 
-    override fun getItemCount(): Int = innerTexts.size
-//    override fun getItemCount(): Int = innerTexts.count { it.size > 1 }
+    override fun getItemCount(): Int = dataList.size
+//    override fun getItemCount(): Int = data.count { it.size > 1 }
 //    override fun getItemCount(): Int = 9
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d("size", "${innerTexts.count { it.size > 0 }}")
 
-        holder.textView.text = innerTexts[position][0]
-        for (i in 1 until innerTexts[position].size) {
+        Log.d("size", "${dataList.count { it.size > 0 }}")
+
+        holder.textView.text = dataList[position][0]
+
+        for (i in 1 until dataList[position].size) {
+            val ll = LinearLayoutCompat(holder.view.context)
             val tv = TextView(holder.view.context)
-            tv.text = innerTexts[position][i]
-            holder.linearLayout.addView(tv)
+            val checkBox = CheckBox(holder.view.context)
+            tv.text = dataList[position][i]
+            ll.addView(checkBox)
+            ll.addView(tv)
+//            holder.linearLayout.addView(checkBox)
+            holder.linearLayout.addView(ll)
         }
 
         holder.textView.setOnClickListener {

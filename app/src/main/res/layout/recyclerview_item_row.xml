@@ -4,47 +4,56 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayout"
-        android:orientation="horizontal"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@color/colorPrimaryDark"
-            android:src="@drawable/abc_vector_test"
-            android:visibility="gone" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Text"
-            android:textSize="20sp" />
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/iconAdd"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="end"
-            android:background="@color/colorPrimaryDark"
-            android:src="@drawable/ic_add_black_24dp" />
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@color/colorAccent"
+                android:src="@drawable/abc_vector_test"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="3"
+                android:text="Text"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:onClick="addTask"
+                android:id="@+id/iconAdd"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="end"
+                android:src="@drawable/ic_add_black_24dp" />
 
 
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         android:id="@+id/ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_view" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

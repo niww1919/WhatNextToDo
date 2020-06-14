@@ -31,8 +31,6 @@ class RecyclerAdapter(val dataList: MutableList<MutableList<String>>) : Recycler
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        Log.d("size", "${dataList.count { it.size > 0 }}")
-
         holder.textView.text = dataList[position][0]
 
         for (i in 1 until dataList[position].size) {
@@ -43,7 +41,7 @@ class RecyclerAdapter(val dataList: MutableList<MutableList<String>>) : Recycler
             ll.addView(checkBox)
             ll.addView(tv)
 //            holder.linearLayout.addView(checkBox)
-            holder.linearLayout.addView(ll)
+            holder.linearLayout.addView(ll) //fixme похоже что старые элементы остаются
         }
 
         holder.textView.setOnClickListener {

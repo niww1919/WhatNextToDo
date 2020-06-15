@@ -32,6 +32,9 @@ class RecyclerAdapter(val dataList: MutableList<MutableList<String>>) : Recycler
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.textView.text = dataList[position][0]
+//        holder.linearLayout.removeAllViews()
+        holder.linearLayout.removeAllViewsInLayout()
+
 
         for (i in 1 until dataList[position].size) {
             val ll = LinearLayoutCompat(holder.view.context)

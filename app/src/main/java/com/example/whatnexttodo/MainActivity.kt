@@ -2,11 +2,13 @@ package com.example.whatnexttodo
 
 import android.app.Dialog
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -33,10 +35,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         val fb = findViewById<FloatingActionButton>(R.id.floatingActionButton)
         fb.setOnClickListener {
             addNewToDo()
         }
+
+//        val iconAddTask = findViewById<ImageView>(R.id.iconAddTask)
+//        iconAddTask.setOnClickListener {
+//            addNewTask()
+//        }
 
 
         linearLayoutManager = LinearLayoutManager(this)
@@ -94,11 +102,34 @@ class MainActivity : AppCompatActivity() {
         val editText = EditText(this)
 
         MaterialAlertDialogBuilder(this)
-            .setTitle("Insert task")
+            .setTitle("New ToDo")
             .setView(editText)
             .setNegativeButton("Cancel", { dialog, which -> "ok" })
             .setPositiveButton("Ok", { dialog, which ->
                 innerTexts.add(0, mutableListOf(editText.text.toString()))
+//                innerTexts.add(linearLayoutManager.findLastVisibleItemPosition(), mutableListOf(editText.text.toString()))
+                rv.adapter?.notifyDataSetChanged()
+
+            })
+
+            .show()
+
+
+    }
+    fun addNewTask(view: View) {
+//        innerTexts.add(mutableListOf("Ok"))
+//        innerTexts.add(0, mutableListOf("Test", "test", "test"))
+//        rv.adapter?.notifyItemRangeInserted(0,1)
+//        rv.adapter?.notifyDataSetChanged()
+        val editText = EditText(this)
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle("New task")
+            .setView(editText)
+            .setNegativeButton("Cancel", { dialog, which -> "ok" })
+            .setPositiveButton("Ok", { dialog, which ->
+                innerTexts[0].add(1,editText.text.toString())
+//                innerTexts.add(linearLayoutManager.findLastVisibleItemPosition(), mutableListOf(editText.text.toString()))
                 rv.adapter?.notifyDataSetChanged()
 
             })

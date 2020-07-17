@@ -20,6 +20,7 @@ import com.example.whatnexttodo.data.Data
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
     private lateinit var linearLayoutManager: LinearLayoutManager
@@ -35,16 +36,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+//        val file = File("/data/data/com.example.whatnexttodo/db/")
+//        val file = File(applicationContext.filesDir.path)
 
         val fb = findViewById<FloatingActionButton>(R.id.floatingActionButton)
         fb.setOnClickListener {
             addNewToDo()
         }
 
-//        val iconAddTask = findViewById<ImageView>(R.id.iconAddTask)
-//        iconAddTask.setOnClickListener {
-//            addNewTask()
-//        }
+
 
 
         linearLayoutManager = LinearLayoutManager(this)
@@ -95,44 +95,37 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addNewToDo() {
-//        innerTexts.add(mutableListOf("Ok"))
-//        innerTexts.add(0, mutableListOf("Test", "test", "test"))
-//        rv.adapter?.notifyItemRangeInserted(0,1)
-//        rv.adapter?.notifyDataSetChanged()
         val editText = EditText(this)
 
         MaterialAlertDialogBuilder(this)
             .setTitle("New ToDo")
             .setView(editText)
             .setNegativeButton("Cancel", { dialog, which -> "ok" })
-            .setPositiveButton("Ok", { dialog, which ->
+            .setPositiveButton("Ok") { dialog, which ->
                 innerTexts.add(0, mutableListOf(editText.text.toString()))
-//                innerTexts.add(linearLayoutManager.findLastVisibleItemPosition(), mutableListOf(editText.text.toString()))
+//                        innerTexts.add(rv.layoutManager., mutableListOf(editText.text.toString()))
                 rv.adapter?.notifyDataSetChanged()
 
-            })
+            }
 
             .show()
 
 
     }
+
     fun addNewTask(view: View) {
-//        innerTexts.add(mutableListOf("Ok"))
-//        innerTexts.add(0, mutableListOf("Test", "test", "test"))
-//        rv.adapter?.notifyItemRangeInserted(0,1)
-//        rv.adapter?.notifyDataSetChanged()
         val editText = EditText(this)
 
         MaterialAlertDialogBuilder(this)
             .setTitle("New task")
             .setView(editText)
             .setNegativeButton("Cancel", { dialog, which -> "ok" })
-            .setPositiveButton("Ok", { dialog, which ->
-                innerTexts[0].add(1,editText.text.toString())
-//                innerTexts.add(linearLayoutManager.findLastVisibleItemPosition(), mutableListOf(editText.text.toString()))
+            .setPositiveButton("Ok") { dialog, which ->
+                innerTexts[0].add(1, editText.text.toString())
+                //                innerTexts.add(linearLayoutManager.findLastVisibleItemPosition(), mutableListOf(editText.text.toString()))
                 rv.adapter?.notifyDataSetChanged()
 
-            })
+            }
 
             .show()
 

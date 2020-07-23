@@ -1,17 +1,11 @@
 package com.example.whatnexttodo
 
-import android.app.Dialog
-import android.content.Context
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,12 +13,14 @@ import com.example.whatnexttodo.adapter.RecyclerAdapter
 import com.example.whatnexttodo.data.Data
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import io.realm.Realm
+import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: RecyclerAdapter
-    val innerTexts: MutableList<MutableList<String>> =
+    val listOfData: MutableList<MutableList<String>> =
         mutableListOf(
             mutableListOf("1", "2", "3"),
             mutableListOf("11", "22", "33"),
@@ -35,6 +31,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+        Realm.init(this)
+        val config = RealmConfiguration.Builder()
+            .build()
+        Realm.setDefaultConfiguration(config)
+
+//        val file = File("/data/data/com.example.whatnexttodo/db/")
+//        val file = File(applicationContext.filesDir.path)
 
         val fb = findViewById<FloatingActionButton>(R.id.floatingActionButton)
         fb.setOnClickListener {
@@ -49,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
         linearLayoutManager = LinearLayoutManager(this)
         rv.layoutManager = linearLayoutManager
-        adapter = RecyclerAdapter(innerTexts)
+        adapter = RecyclerAdapter(listOfData)
         rv.adapter = adapter
 
         val db = Data()
@@ -106,7 +110,7 @@ class MainActivity : AppCompatActivity() {
             .setView(editText)
             .setNegativeButton("Cancel", { dialog, which -> "ok" })
             .setPositiveButton("Ok", { dialog, which ->
-                innerTexts.add(0, mutableListOf(editText.text.toString()))
+                listOfData.add(0, mutableListOf(editText.text.toString()))
 //                innerTexts.add(linearLayoutManager.findLastVisibleItemPosition(), mutableListOf(editText.text.toString()))
                 rv.adapter?.notifyDataSetChanged()
 
@@ -128,7 +132,7 @@ class MainActivity : AppCompatActivity() {
             .setView(editText)
             .setNegativeButton("Cancel", { dialog, which -> "ok" })
             .setPositiveButton("Ok", { dialog, which ->
-                innerTexts[0].add(1,editText.text.toString())
+                listOfData[0].add(1,editText.text.toString())
 //                innerTexts.add(linearLayoutManager.findLastVisibleItemPosition(), mutableListOf(editText.text.toString()))
                 rv.adapter?.notifyDataSetChanged()
 
@@ -142,9 +146,9 @@ class MainActivity : AppCompatActivity() {
 //        innerTexts[adapter.itemCount].add("work")
 //        innerTexts[linearLayoutManager.getPosition(view)].add(1,"work")
 //        innerTexts[1].add(1,"work")
-        innerTexts[0].add(1, "work")
+        listOfData[0].add(1, "work")
         rv.adapter?.notifyDataSetChanged()
-        Log.d("size", "${innerTexts}")
+        Log.d("size", "${listOfData}")
 
 
     }

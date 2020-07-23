@@ -37,6 +37,27 @@ class MainActivity : AppCompatActivity() {
             .build()
         Realm.setDefaultConfiguration(config)
 
+        val realm = Realm.getDefaultInstance()
+
+        realm.executeTransaction {
+            try {
+
+                val realmDataBase = it.createObject(RealmDataBase::class.java)
+                realmDataBase.name = "Test2"
+                Log.i("Realm", realmDataBase.name)
+
+            } catch (e: Exception) {
+                Log.i("Realm", e.toString())
+
+            }
+
+//            val realmList = it.createObject(RealmList::class.java)
+//            val realmList = it.createObject(RealmList::class.java)
+//            realmList.list[0] = "Tee"
+//            Log.i("Realm", realmList.list.toString())
+
+        }
+
 //        val file = File("/data/data/com.example.whatnexttodo/db/")
 //        val file = File(applicationContext.filesDir.path)
 
@@ -120,6 +141,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
     fun addNewTask(view: View) {
 //        innerTexts.add(mutableListOf("Ok"))
 //        innerTexts.add(0, mutableListOf("Test", "test", "test"))
@@ -132,7 +154,7 @@ class MainActivity : AppCompatActivity() {
             .setView(editText)
             .setNegativeButton("Cancel", { dialog, which -> "ok" })
             .setPositiveButton("Ok", { dialog, which ->
-                listOfData[0].add(1,editText.text.toString())
+                listOfData[0].add(1, editText.text.toString())
 //                innerTexts.add(linearLayoutManager.findLastVisibleItemPosition(), mutableListOf(editText.text.toString()))
                 rv.adapter?.notifyDataSetChanged()
 

@@ -31,13 +31,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
+/**
         Realm.init(this)
         val config = RealmConfiguration.Builder()
             .build()
         Realm.setDefaultConfiguration(config)
 
         val realm = Realm.getDefaultInstance()
+
 
         realm.executeTransaction {
             try {
@@ -57,6 +58,8 @@ class MainActivity : AppCompatActivity() {
 //            Log.i("Realm", realmList.list.toString())
 
         }
+ */
+
 
 //        val file = File("/data/data/com.example.whatnexttodo/db/")
 //        val file = File(applicationContext.filesDir.path)

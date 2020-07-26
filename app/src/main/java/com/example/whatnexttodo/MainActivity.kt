@@ -34,16 +34,18 @@ class MainActivity : AppCompatActivity() {
 
         Realm.init(this)
         val config = RealmConfiguration.Builder()
+            .schemaVersion(2)
+            .deleteRealmIfMigrationNeeded()
             .build()
         Realm.setDefaultConfiguration(config)
 
-        val realm = Realm.getDefaultInstance()
+        val realm = Realm.getInstance(config)
 
         realm.executeTransaction {
             try {
 
                 val realmDataBase = it.createObject(RealmDataBase::class.java)
-                realmDataBase.name = "Test2"
+                realmDataBase.name = "Test3"
                 Log.i("Realm", realmDataBase.name)
 
             } catch (e: Exception) {

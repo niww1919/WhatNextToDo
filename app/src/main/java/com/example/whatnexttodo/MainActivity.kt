@@ -26,39 +26,38 @@ class MainActivity : AppCompatActivity() {
             mutableListOf("11", "22", "33"),
             mutableListOf("111", "222", "333")
         )
+    private lateinit var realm: Realm
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-/**
-        Realm.init(this)
-        val config = RealmConfiguration.Builder()
-            .build()
-        Realm.setDefaultConfiguration(config)
-
-        val realm = Realm.getDefaultInstance()
+        /****
+         * Realm
+         * **/
 
 
-        realm.executeTransaction {
-            try {
+        realm = Realm.getDefaultInstance()
 
-                val realmDataBase = it.createObject(RealmDataBase::class.java)
-                realmDataBase.name = "Test2"
-                Log.i("Realm", realmDataBase.name)
+        realm.beginTransaction()
+        var note = realm.createObject(Note::class.java)
+        note.title ="test"
+        realm.deleteAll()
+        realm.commitTransaction()
 
-            } catch (e: Exception) {
-                Log.i("Realm", e.toString())
+        Log.i("realmList", note.title)
 
-            }
 
-//            val realmList = it.createObject(RealmList::class.java)
-//            val realmList = it.createObject(RealmList::class.java)
-//            realmList.list[0] = "Tee"
-//            Log.i("Realm", realmList.list.toString())
 
-        }
- */
+
+
+
+//
+//        mRealm.beginTransaction()
+//        var realmList = mRealm.createObject(RealmList::class.java)
+//        realmList.list.add("Test")
+//        mRealm.commitTransaction()
+
+
 
 
 //        val file = File("/data/data/com.example.whatnexttodo/db/")
@@ -177,6 +176,12 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        mRealm.close()
+//
+//    }
 
 
 }

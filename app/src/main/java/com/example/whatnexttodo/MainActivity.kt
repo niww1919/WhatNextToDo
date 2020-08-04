@@ -44,9 +44,17 @@ class MainActivity : AppCompatActivity() {
         realm.executeTransaction {
             try {
 
-                val realmDataBase = it.createObject(RealmDataBase::class.java)
-                realmDataBase.name = "Test3"
-                Log.i("Realm", realmDataBase.name)
+                val realmList = it.createObject(RealmList::class.java)
+                realmList.firstNote = "111111"
+                realmList.listNote.add("Work222")
+                realmList.listNote.add("Work333")
+                realmList.listNote.add("Work444")
+//                realmList.dataList.add(realmList.list)
+
+                Log.i("Realm", realmList.firstNote)
+                Log.i("Realm", realmList.listNote.first())
+                Log.i("Realm", realmList.listNote.toString())
+//                Log.i("Realm", realmList.dataList.toString())
 
             } catch (e: Exception) {
                 Log.i("Realm", e.toString())
@@ -157,6 +165,8 @@ class MainActivity : AppCompatActivity() {
             .setNegativeButton("Cancel", { dialog, which -> "ok" })
             .setPositiveButton("Ok", { dialog, which ->
                 listOfData[0].add(1, editText.text.toString())
+
+
 //                innerTexts.add(linearLayoutManager.findLastVisibleItemPosition(), mutableListOf(editText.text.toString()))
                 rv.adapter?.notifyDataSetChanged()
 

@@ -139,8 +139,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun addTask(view: View) {
-//        innerTexts[adapter.itemCount].add("work")
-//        innerTexts[linearLayoutManager.getPosition(view)].add(1,"work")
 //        innerTexts[1].add(1,"work")
         innerTexts[0].add(1, "work")
         rv.adapter?.notifyDataSetChanged()

@@ -19,6 +19,8 @@ import com.example.whatnexttodo.adapter.RecyclerAdapter
 import com.example.whatnexttodo.data.Data
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -30,10 +32,16 @@ class MainActivity : AppCompatActivity() {
             mutableListOf("11", "22", "33"),
             mutableListOf("111", "222", "333")
         )
+    val database = Firebase.database
+    val myRef = database.getReference("message")
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+    myRef.setValue("Hello, World!")
 
 
         val fb = findViewById<FloatingActionButton>(R.id.floatingActionButton)

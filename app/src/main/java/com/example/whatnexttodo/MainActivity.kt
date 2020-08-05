@@ -32,17 +32,18 @@ class MainActivity : AppCompatActivity() {
             mutableListOf("11", "22", "33"),
             mutableListOf("111", "222", "333")
         )
-    val database = Firebase.database
-    val myRef = database.getReference("message")
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-    myRef.setValue("Hello, World!")
+        val database = Firebase.database
+        val myRef = database.getReference("message§")
+        myRef.setValue("Hello, World!")
 
+        val myDB = database.getReference("DB")
+        myDB.setValue(innerTexts)
 
         val fb = findViewById<FloatingActionButton>(R.id.floatingActionButton)
         fb.setOnClickListener {
@@ -124,6 +125,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
     fun addNewTask(view: View) {
 //        innerTexts.add(mutableListOf("Ok"))
 //        innerTexts.add(0, mutableListOf("Test", "test", "test"))
@@ -136,7 +138,7 @@ class MainActivity : AppCompatActivity() {
             .setView(editText)
             .setNegativeButton("Cancel", { dialog, which -> "ok" })
             .setPositiveButton("Ok", { dialog, which ->
-                innerTexts[0].add(1,editText.text.toString())
+                innerTexts[0].add(1, editText.text.toString())
 //                innerTexts.add(linearLayoutManager.findLastVisibleItemPosition(), mutableListOf(editText.text.toString()))
                 rv.adapter?.notifyDataSetChanged()
 

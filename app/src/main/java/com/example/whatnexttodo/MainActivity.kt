@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
             mutableListOf("11", "22", "33"),
             mutableListOf("111", "222", "333")
         )
+
     val database = Firebase.database
     val myDB = database.getReference("DB")
 
@@ -44,19 +45,11 @@ class MainActivity : AppCompatActivity() {
 //        myDB.setValue(listDataBase)
         myDB.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                // whenever data at this location is updated.
                 val value: MutableList<MutableList<String>>? =
                     dataSnapshot.getValue<MutableList<MutableList<String>>>()
-//                val value : Collection<MutableList<String>>? = dataSnapshot.getValue<Collection<MutableList<String>>>()
-//                val value : MutableList<String>? = dataSnapshot.getValue<MutableList<String>()
-//                val value = dataSnapshot.getValue<MutableList<MutableList<String>>>()
-//                listDataBase.clear()
-//                listDataBase.add(value)
                 listDataBase.clear()
                 value?.let { listDataBase.addAll(it) }
-                Log.d(TAG, "Value is: $value")
+                Log.d(TAG, "Value is: $value" +"\n$listDataBase ")
             }
 
             override fun onCancelled(error: DatabaseError) {

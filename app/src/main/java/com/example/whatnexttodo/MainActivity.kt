@@ -1,78 +1,80 @@
 package com.example.whatnexttodo
 
-import android.app.Dialog
-import android.content.Context
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.whatnexttodo.adapter.RecyclerAdapter
-import com.example.whatnexttodo.data.Data
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: RecyclerAdapter
-    val innerTexts: MutableList<MutableList<String>> =
+    private val TAG = "TAGG"
+
+    //        val listDataBase: MutableList<MutableList<String>>
+    val listDataBase: MutableList<MutableList<String>> =
         mutableListOf(
             mutableListOf("1", "2", "3"),
             mutableListOf("11", "22", "33"),
             mutableListOf("111", "222", "333")
         )
+    val database = Firebase.database
+    val myDB = database.getReference("DB")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val database = Firebase.database
-        val myRef = database.getReference("message§")
-        myRef.setValue("Hello, World!")
 
-        val myDB = database.getReference("DB")
-        myDB.setValue(innerTexts)
+//        myDB.setValue(listDataBase)
+        myDB.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                // whenever data at this location is updated.
+                val value: MutableList<MutableList<String>>? =
+                    dataSnapshot.getValue<MutableList<MutableList<String>>>()
+//                val value : Collection<MutableList<String>>? = dataSnapshot.getValue<Collection<MutableList<String>>>()
+//                val value : MutableList<String>? = dataSnapshot.getValue<MutableList<String>()
+//                val value = dataSnapshot.getValue<MutableList<MutableList<String>>>()
+//                listDataBase.clear()
+//                listDataBase.add(value)
+                listDataBase.clear()
+                value?.let { listDataBase.addAll(it) }
+                Log.d(TAG, "Value is: $value")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException())
+            }
+        })
+
 
         val fb = findViewById<FloatingActionButton>(R.id.floatingActionButton)
         fb.setOnClickListener {
             addNewToDo()
         }
 
-//        val iconAddTask = findViewById<ImageView>(R.id.iconAddTask)
-//        iconAddTask.setOnClickListener {
-//            addNewTask()
-//        }
-
-
         linearLayoutManager = LinearLayoutManager(this)
         rv.layoutManager = linearLayoutManager
-        adapter = RecyclerAdapter(innerTexts)
+        adapter = RecyclerAdapter(listDataBase)
         rv.adapter = adapter
-
-        val db = Data()
-        db.jsonObject.put("2", "2323")
-        Log.i("JObject", db.jsonObject.toString())
-        Log.i("JObject", "${db.jsonObject.length()}")
-        Log.i("JObject", "${db.jsonObject}")
-
-        Log.i("JObject", "${db.list}")
-        Log.i("JObject", db.list[0][0])
-
-        Log.i("JObject", "${db.map}")
-        Log.i("JObject", "${db.map}")
-        Log.i("JObject", "${db.map.size}")
 
 
         val itemSwipe = ItemTouchHelper(
@@ -103,6 +105,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+    }
+
+
     private fun addNewToDo() {
 //        innerTexts.add(mutableListOf("Ok"))
 //        innerTexts.add(0, mutableListOf("Test", "test", "test"))
@@ -115,13 +123,14 @@ class MainActivity : AppCompatActivity() {
             .setView(editText)
             .setNegativeButton("Cancel", { dialog, which -> "ok" })
             .setPositiveButton("Ok", { dialog, which ->
-                innerTexts.add(0, mutableListOf(editText.text.toString()))
+                listDataBase.add(0, mutableListOf(editText.text.toString()))
 //                innerTexts.add(linearLayoutManager.findLastVisibleItemPosition(), mutableListOf(editText.text.toString()))
                 rv.adapter?.notifyDataSetChanged()
 
             })
 
             .show()
+        myDB.setValue(listDataBase)
 
 
     }
@@ -138,21 +147,23 @@ class MainActivity : AppCompatActivity() {
             .setView(editText)
             .setNegativeButton("Cancel", { dialog, which -> "ok" })
             .setPositiveButton("Ok", { dialog, which ->
-                innerTexts[0].add(1, editText.text.toString())
+                listDataBase[0].add(1, editText.text.toString())
 //                innerTexts.add(linearLayoutManager.findLastVisibleItemPosition(), mutableListOf(editText.text.toString()))
                 rv.adapter?.notifyDataSetChanged()
 
             })
 
             .show()
+        myDB.setValue(listDataBase)
+
 
     }
 
     fun addTask(view: View) {
 //        innerTexts[1].add(1,"work")
-        innerTexts[0].add(1, "work")
+        listDataBase[0].add(1, "work")
         rv.adapter?.notifyDataSetChanged()
-        Log.d("size", "${innerTexts}")
+        Log.d("size", "${listDataBase}")
 
 
     }

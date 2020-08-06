@@ -23,10 +23,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: RecyclerAdapter
+    private lateinit var listDB: MutableList<MutableList<String>>
+
+
     private val TAG = "TAGG"
 
     //        val listDataBase: MutableList<MutableList<String>>
-    val listDataBase: MutableList<MutableList<String>> =
+    var listDataBase: MutableList<MutableList<String>> =
         mutableListOf(
             mutableListOf("1", "2", "3"),
             mutableListOf("11", "22", "33"),
@@ -41,15 +44,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-//        myDB.setValue(listDataBase)
         myDB.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value: MutableList<MutableList<String>>? =
                     dataSnapshot.getValue<MutableList<MutableList<String>>>()
-                listDataBase.clear()
                 value?.let { listDataBase.addAll(it) }
-                Log.d(TAG, "Value is: $value" +"\n$listDataBase ")
+                Log.d(TAG, "Value is: $value" + "\n$listDataBase ")
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -70,45 +70,18 @@ class MainActivity : AppCompatActivity() {
         rv.adapter = adapter
 
 
-        val itemSwipe = ItemTouchHelper(
-            object :
-                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ): Boolean {
-                    return true
-                }
-
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    if (direction == ItemTouchHelper.LEFT) {
-
-//                        (rv.adapter as RecyclerAdapter).notifyItemRangeInserted(viewHolder.itemId.toInt(),1)
-
-                        Toast.makeText(this@MainActivity, "Left", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(this@MainActivity, "Right", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-            })
-
-        itemSwipe.attachToRecyclerView(rv)
-
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+
+    override fun onPause() {
+        super.onPause()
+        myDB.setValue(listDataBase)
+
 
     }
 
 
     private fun addNewToDo() {
-//        innerTexts.add(mutableListOf("Ok"))
-//        innerTexts.add(0, mutableListOf("Test", "test", "test"))
-//        rv.adapter?.notifyItemRangeInserted(0,1)
-//        rv.adapter?.notifyDataSetChanged()
         val editText = EditText(this)
 
         MaterialAlertDialogBuilder(this)
@@ -123,7 +96,6 @@ class MainActivity : AppCompatActivity() {
             })
 
             .show()
-        myDB.setValue(listDataBase)
 
 
     }
@@ -147,7 +119,6 @@ class MainActivity : AppCompatActivity() {
             })
 
             .show()
-        myDB.setValue(listDataBase)
 
 
     }

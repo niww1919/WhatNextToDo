@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -50,6 +51,10 @@ class RecyclerAdapter(val dataList: MutableList<MutableList<String>>) : Recycler
         holder.textView.setOnClickListener {
             holder.icon.visibility = View.VISIBLE
         }
+//        holder.textView.setOnLongClickListener {
+//
+//            Toast.makeText(holder.view.context,"Work",Toast.LENGTH_SHORT)
+//        }
     }
 
     open class ViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {

@@ -1,5 +1,8 @@
 package com.example.whatnexttodo
 
+import android.content.Context
+import android.inputmethodservice.InputMethodService
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -94,6 +97,7 @@ class MainActivity : AppCompatActivity() {
                 rv.adapter?.notifyDataSetChanged()
 
             })
+
 
             .show()
 

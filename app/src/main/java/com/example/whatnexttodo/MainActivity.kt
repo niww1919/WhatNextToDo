@@ -86,17 +86,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun addNewToDo() {
         val editText = EditText(this)
-
         MaterialAlertDialogBuilder(this)
             .setTitle("New ToDo")
             .setView(editText)
-            .setNegativeButton("Cancel", { dialog, which -> "ok" })
-            .setPositiveButton("Ok", { dialog, which ->
+            .setNegativeButton("Cancel") { dialog, which -> "ok" }
+            .setPositiveButton("Ok") { dialog, which ->
                 listDataBase.add(0, mutableListOf(editText.text.toString()))
-//                innerTexts.add(linearLayoutManager.findLastVisibleItemPosition(), mutableListOf(editText.text.toString()))
                 rv.adapter?.notifyDataSetChanged()
 
-            })
+            }
 
 
             .show()
@@ -111,11 +109,11 @@ class MainActivity : AppCompatActivity() {
             .setTitle("New task")
             .setView(editText)
             .setNegativeButton("Cancel", { dialog, which -> "ok" })
-            .setPositiveButton("Ok", { dialog, which ->
+            .setPositiveButton("Ok") { dialog, which ->
                 listDataBase[0].add(1, editText.text.toString())
                 rv.adapter?.notifyDataSetChanged()
 
-            })
+            }
 
             .show()
 

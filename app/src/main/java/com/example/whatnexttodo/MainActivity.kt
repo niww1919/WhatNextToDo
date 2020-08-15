@@ -30,11 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     //        val listDataBase: MutableList<MutableList<String>>
     var listDataBase: MutableList<MutableList<String>> =
-        mutableListOf(
-            mutableListOf("1", "2", "3"),
-            mutableListOf("11", "22", "33"),
-            mutableListOf("111", "222", "333")
-        )
+        mutableListOf()
 
     val database = Firebase.database
     val myDB = database.getReference("DB")
@@ -44,10 +40,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+//        myDB.addListenerForSingleValueEvent(object : ValueEventListener {
         myDB.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value: MutableList<MutableList<String>>? =
                     dataSnapshot.getValue<MutableList<MutableList<String>>>()
+                listDataBase.clear()
+                rv.adapter?.notifyDataSetChanged()
+
                 value?.let { listDataBase.addAll(it) }
                 Log.d(TAG, "Value is: $value" + "\n$listDataBase ")
             }
@@ -101,10 +101,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun addNewTask(view: View) {
-//        innerTexts.add(mutableListOf("Ok"))
-//        innerTexts.add(0, mutableListOf("Test", "test", "test"))
-//        rv.adapter?.notifyItemRangeInserted(0,1)
-//        rv.adapter?.notifyDataSetChanged()
         val editText = EditText(this)
 
         MaterialAlertDialogBuilder(this)
@@ -113,7 +109,6 @@ class MainActivity : AppCompatActivity() {
             .setNegativeButton("Cancel", { dialog, which -> "ok" })
             .setPositiveButton("Ok", { dialog, which ->
                 listDataBase[0].add(1, editText.text.toString())
-//                innerTexts.add(linearLayoutManager.findLastVisibleItemPosition(), mutableListOf(editText.text.toString()))
                 rv.adapter?.notifyDataSetChanged()
 
             })
@@ -122,15 +117,5 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-    fun addTask(view: View) {
-//        innerTexts[1].add(1,"work")
-        listDataBase[0].add(1, "work")
-        rv.adapter?.notifyDataSetChanged()
-        Log.d("size", "${listDataBase}")
-
-
-    }
-
 
 }

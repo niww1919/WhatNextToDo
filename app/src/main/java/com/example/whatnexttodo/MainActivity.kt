@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        myDB.addListenerForSingleValueEvent(object : ValueEventListener {
         myDB.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value: MutableList<MutableList<String>>? =
@@ -93,10 +92,7 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton("Ok") { dialog, which ->
                 listDataBase.add(0, mutableListOf(editText.text.toString()))
                 rv.adapter?.notifyDataSetChanged()
-
             }
-
-
             .show()
 
 
@@ -112,9 +108,7 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton("Ok") { dialog, which ->
                 listDataBase[0].add(1, editText.text.toString())
                 rv.adapter?.notifyDataSetChanged()
-
             }
-
             .show()
 
 

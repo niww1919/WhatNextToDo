@@ -70,8 +70,15 @@ class RecyclerAdapter(val dataList: MutableList<MutableList<String>>, val recycl
                 .setTitle("Delete")
                 .setNegativeButton("Cancel", { dialog, which -> "ok" })
                 .setPositiveButton("Ok") { dialog, which ->
-                    dataList[position].removeAt(dataList[position].size-1)
-                    recyclerView.adapter?.notifyDataSetChanged()
+
+                    if (dataList[position].size -1 == 0){
+                        dataList.removeAt(position)
+                        recyclerView.adapter?.notifyDataSetChanged()
+
+                    }else {
+                        dataList[position].removeAt(dataList[position].size - 1)
+                        recyclerView.adapter?.notifyDataSetChanged()
+                    }
                 }
                 .show()
             return@setOnLongClickListener true

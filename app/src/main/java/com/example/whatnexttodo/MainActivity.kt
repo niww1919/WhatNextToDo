@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
 
         linearLayoutManager = LinearLayoutManager(this)
         rv.layoutManager = linearLayoutManager
-        adapter = RecyclerAdapter(listDataBase)
+        adapter = RecyclerAdapter(listDataBase, rv)
         rv.adapter = adapter
 
 
@@ -98,20 +98,5 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun addNewTask(view: View) {
-        val editText = EditText(this)
-
-        MaterialAlertDialogBuilder(this)
-            .setTitle("New task")
-            .setView(editText)
-            .setNegativeButton("Cancel", { dialog, which -> "ok" })
-            .setPositiveButton("Ok") { dialog, which ->
-                listDataBase[0].add(1, editText.text.toString())
-                rv.adapter?.notifyDataSetChanged()
-            }
-            .show()
-
-
-    }
 
 }

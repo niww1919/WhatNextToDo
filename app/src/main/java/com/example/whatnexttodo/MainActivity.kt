@@ -34,10 +34,8 @@ class MainActivity : AppCompatActivity() {
     //        val listDataBase: MutableList<MutableList<String>>
     var listDataBase: MutableList<MutableList<String>> =
         mutableListOf()
-
     val database = Firebase.database
     val myDB = database.getReference("DB")
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,18 +68,15 @@ class MainActivity : AppCompatActivity() {
         rv.layoutManager = linearLayoutManager
         adapter = RecyclerAdapter(listDataBase, rv)
         rv.adapter = adapter
-
-
     }
-
 
     override fun onPause() {
         super.onPause()
-        myDB.setValue(listDataBase)
+        if (listDataBase.size != 0) {
+            myDB.setValue(listDataBase)
 
-
+        }
     }
-
 
     private fun addNewToDo() {
         val editText = EditText(this)
@@ -94,9 +89,6 @@ class MainActivity : AppCompatActivity() {
                 rv.adapter?.notifyDataSetChanged()
             }
             .show()
-
-
     }
-
 
 }

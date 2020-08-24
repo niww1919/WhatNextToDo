@@ -1,7 +1,5 @@
 package com.example.whatnexttodo.adapter
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +9,11 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.whatnexttodo.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.android.synthetic.main.activity_main.*
 
-class RecyclerAdapter(val dataList: MutableList<MutableList<String>>, val recyclerView: RecyclerView) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
-
-
+class RecyclerAdapter(
+    val dataList: MutableList<MutableList<String>>,
+    val recyclerView: RecyclerView
+) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -49,10 +47,10 @@ class RecyclerAdapter(val dataList: MutableList<MutableList<String>>, val recycl
         }
 
         holder.textView.setOnClickListener {
-            holder.icon.visibility = View.VISIBLE
+            holder.iconAddSubTask.visibility = View.VISIBLE
             holder.adapterPosition
         }
-        holder.icon.setOnClickListener {
+        holder.iconAddSubTask.setOnClickListener {
             val editText = EditText(holder.view.context)
 
             MaterialAlertDialogBuilder(holder.view.context)
@@ -71,11 +69,11 @@ class RecyclerAdapter(val dataList: MutableList<MutableList<String>>, val recycl
                 .setNegativeButton("Cancel", { dialog, which -> "ok" })
                 .setPositiveButton("Ok") { dialog, which ->
 
-                    if (dataList[position].size -1 == 0){
+                    if (dataList[position].size - 1 == 0) {
                         dataList.removeAt(position)
                         recyclerView.adapter?.notifyDataSetChanged()
 
-                    }else {
+                    } else {
                         dataList[position].removeAt(dataList[position].size - 1)
                         recyclerView.adapter?.notifyDataSetChanged()
                     }
@@ -90,7 +88,7 @@ class RecyclerAdapter(val dataList: MutableList<MutableList<String>>, val recycl
         var view: View = v //todo what is is
         val linearLayout = v.findViewById<LinearLayoutCompat>(R.id.ll)
         var textView = v.findViewById<TextView>(R.id.text)
-        val icon = v.findViewById<ImageView>(R.id.iconAddTask)
+        val iconAddSubTask = v.findViewById<ImageView>(R.id.iconAddSubTask)
 
         init {
             v.setOnClickListener(this)//todo what is is

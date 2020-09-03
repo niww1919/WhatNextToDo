@@ -1,20 +1,19 @@
 package com.example.whatnexttodo.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.whatnexttodo.R
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class RecyclerAdapter(val dataList: MutableList<MutableList<String>>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
-
-
+class RecyclerAdapter(
+    val dataList: MutableList<MutableList<String>>,
+    val recyclerView: RecyclerView
+) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -48,7 +47,39 @@ class RecyclerAdapter(val dataList: MutableList<MutableList<String>>) : Recycler
         }
 
         holder.textView.setOnClickListener {
-            holder.icon.visibility = View.VISIBLE
+            holder.iconAddSubTask.visibility = View.VISIBLE
+            holder.adapterPosition
+        }
+        holder.iconAddSubTask.setOnClickListener {
+            val editText = EditText(holder.view.context)
+
+            MaterialAlertDialogBuilder(holder.view.context)
+                .setTitle("New task")
+                .setView(editText)
+                .setNegativeButton("Cancel", { dialog, which -> "ok" })
+                .setPositiveButton("Ok") { dialog, which ->
+                    dataList[position].add(1, editText.text.toString())
+                    recyclerView.adapter?.notifyDataSetChanged()
+                }
+                .show()
+        }
+        holder.textView.setOnLongClickListener {
+            MaterialAlertDialogBuilder(holder.view.context)
+                .setTitle("Delete")
+                .setNegativeButton("Cancel", { dialog, which -> "ok" })
+                .setPositiveButton("Ok") { dialog, which ->
+
+                    if (dataList[position].size - 1 == 0) {
+                        dataList.removeAt(position)
+                        recyclerView.adapter?.notifyDataSetChanged()
+
+                    } else {
+                        dataList[position].removeAt(dataList[position].size - 1)
+                        recyclerView.adapter?.notifyDataSetChanged()
+                    }
+                }
+                .show()
+            return@setOnLongClickListener true
         }
     }
 
@@ -57,7 +88,7 @@ class RecyclerAdapter(val dataList: MutableList<MutableList<String>>) : Recycler
         var view: View = v //todo what is is
         val linearLayout = v.findViewById<LinearLayoutCompat>(R.id.ll)
         var textView = v.findViewById<TextView>(R.id.text)
-        val icon = v.findViewById<ImageView>(R.id.icon)
+        val iconAddSubTask = v.findViewById<ImageView>(R.id.iconAddSubTask)
 
         init {
             v.setOnClickListener(this)//todo what is is
@@ -75,3 +106,5 @@ class RecyclerAdapter(val dataList: MutableList<MutableList<String>>) : Recycler
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
 }
+
+

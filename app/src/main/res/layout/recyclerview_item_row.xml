@@ -35,8 +35,7 @@
                 android:textSize="20sp" />
 
             <ImageView
-                android:onClick="addNewTask"
-                android:id="@+id/iconAddTask"
+                android:id="@+id/iconAddSubTask"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="end"

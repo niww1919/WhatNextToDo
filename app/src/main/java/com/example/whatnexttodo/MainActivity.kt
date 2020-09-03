@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     private val TAG = "TAGG"
 
-    //        val listDataBase: MutableList<MutableList<String>>
     var listDataBase: MutableList<MutableList<String>> =
         mutableListOf()
     val database = Firebase.database

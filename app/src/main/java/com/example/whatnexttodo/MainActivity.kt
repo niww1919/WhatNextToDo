@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: RecyclerAdapter
     private lateinit var listDB: MutableList<MutableList<String>>
 
-
     private val TAG = "TAGG"
 
     var listDataBase: MutableList<MutableList<String>> =
